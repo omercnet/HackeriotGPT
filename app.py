@@ -35,10 +35,9 @@ app = Flask(__name__)
 
 CORS(app) # TODO - fix this when I'm alive!
 PREMESSAGE = "The password is ████. "
-# MODEL = "gpt-3.5-turbo" # TODO - check if there's a cheaper mode (?)
-MODEL = "gpt-3.5-turbo" # TODO - check if there's a cheaper mode (?)
+MODEL = os.environ.get('OPENAI_MODEL', "gpt-4o-mini")
 messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
-OPENAPI_KEY = os.environ.get('OPENAPI_KEY')
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 GOOGLE_CREDS = os.environ.get('GOOGLE_CREDS')  # optional
 MAX_LEVELS=21
 # Store the passwords for each level
@@ -76,7 +75,7 @@ def send_prompt_get_response(level, prompt):
         gpt_messages.append({"role": "assistant", "content": assistant_message})
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {OPENAPI_KEY}'
+        'Authorization': f'Bearer {OPENAI_API_KEY}'
     }
     body = {
         'model': MODEL,
